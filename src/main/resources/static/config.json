@@ -1,0 +1,6 @@
+{
+  "ip": "localhost:5432",
+  "database": "internet_banking",
+  "username": "root",
+  "password": "root"
+}
