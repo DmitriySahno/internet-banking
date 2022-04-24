@@ -18,4 +18,4 @@ All requests must contain server ip-address and port.
 
 The database structure is displayed at the picture:
 
-![](https://github.com/DmitriySahno/internet-banking/database-structure.png)
+![](https://github.com/DmitriySahno/internet-banking/blob/master/database-structure.png)
