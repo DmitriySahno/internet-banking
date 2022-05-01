@@ -1,6 +1,7 @@
 {
   "ip": "localhost:5432",
-  "database": "internet_banking",
-  "username": "root",
-  "password": "root"
+  "databaseVendor": "jdbc:postgresql",
+  "databaseName": "internet_banking",
+  "username": "postgres",
+  "password": "postgres"
 }

@@ -2,7 +2,7 @@
 
 My personal project for portfolio. 
 <br>It is a REST-API application, that allows you to manage of user balances by http-requests:
-* <ins>/getBalace/userId</ins> - get current balance of user. Instead of "userId" you must substitude id of user;
+* <ins>/getBalance/userId</ins> - get current balance of user. Instead of "userId" you must substitude id of user;
 * <ins>/putMoney</ins> - add amount of money to user balance. Http-request should contain request body:
   * *userId* - user id to add amount of money;
   * *amount* - amount of money, that should be added to user;

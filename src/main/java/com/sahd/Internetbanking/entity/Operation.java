@@ -1,5 +1,6 @@
 package com.sahd.Internetbanking.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sahd.Internetbanking.enums.OperationType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,5 +28,6 @@ public class Operation {
     @NonNull
     private Double amount;
     @NonNull
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime date;
 }

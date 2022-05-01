@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -46,10 +47,6 @@ public class OperationService {
         }
         Operation operation = new Operation(userById.get(), OperationType.WITHDRAWAL, amount, LocalDateTime.now());
         Operation savedOperation = operationRepository.save(operation);
-        if (savedOperation == null) {
-            log.error("Error while taking money by user: {}, amount: {}", userId, amount);
-            throw new OperationNotFoundException("Error while taking money by user: " + userId + ", amount: " + amount);
-        }
         balanceService.decreaseBalance(userId, amount);
         log.info("Money was taken successfully by user: {}, amount: {}", userId, amount);
         return savedOperation;
@@ -65,10 +62,6 @@ public class OperationService {
         }
         Operation operation = new Operation(userById.get(), OperationType.DEPOSIT, amount, LocalDateTime.now());
         Operation savedOperation = operationRepository.save(operation);
-        if (savedOperation == null) {
-            log.error("Error while putting money by user: {}, amount: {}", userId, amount);
-            throw new OperationNotFoundException("Error while putting money by user: " + userId + ", amount: " + amount);
-        }
         balanceService.increaseBalance(userId, amount);
         log.info("Money was taken successfully by user: {}, amount: {}", userId, amount);
         return savedOperation;
@@ -81,4 +74,17 @@ public class OperationService {
     }
 
 
+    public List<Operation> getOperations(Long userId, LocalDateTime dateFrom, LocalDateTime dateTo) {
+        log.info("Starting to get operations by user: {} between dateFrom: {} and dateTo: {}", userId, dateFrom, dateTo);
+        Optional<User> userById = userRepository.findById(userId);
+        if (userById.isEmpty()) {
+            log.error("User not found by id= " + userId);
+            throw new UserNotFoundException("User not found by id= " + userId);
+        }
+        List<Operation> operations = operationRepository.findAllByUserIdAndDateBetween(userById.get()
+                , dateFrom == null ? LocalDateTime.parse("0000-01-01T00:00:00.0") : dateFrom
+                , dateTo == null ? LocalDate.now().plusDays(1).atTime(0, 0) : dateTo);
+        log.info("Operations were got successfully by user: {} between dateFrom: {} and dateTo: {}. Operations: {}", userId, dateFrom, dateTo, operations);
+        return operations;
+    }
 }

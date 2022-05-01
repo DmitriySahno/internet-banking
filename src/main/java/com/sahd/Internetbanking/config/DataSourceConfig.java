@@ -1,9 +1,6 @@
 package com.sahd.Internetbanking.config;
 
-import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.fasterxml.jackson.databind.annotation.JsonValueInstantiator;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,21 +10,24 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.sql.DataSource;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 @Configuration
 public class DataSourceConfig {
 
     @Value("${config.file}")
-    private String CONFIG_FILE;
+    private String configFilePath;
 
     @Bean
     public DataSource getDataSource() {
         try {
             DataSourceCf dsConfig = getDataSourceConfig();
             DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
-            dataSourceBuilder.url(String.format("jdbc:postgresql://%s/%s", dsConfig.getIp(), dsConfig.getDatabase()));
+            dataSourceBuilder.url(String.format("%s://%s/%s", dsConfig.getDatabaseVendor(), dsConfig.getIp(), dsConfig.getDatabaseName()));
             dataSourceBuilder.username(dsConfig.getUsername());
             dataSourceBuilder.password(dsConfig.getPassword());
             return dataSourceBuilder.build();
@@ -39,7 +39,10 @@ public class DataSourceConfig {
 
     private DataSourceCf getDataSourceConfig() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(new File(CONFIG_FILE), DataSourceCf.class);
+        Path configFile = Path.of(configFilePath);
+        try (BufferedReader reader = Files.newBufferedReader(configFile)) {
+            return mapper.readValue(reader, DataSourceCf.class);
+        }
     }
 
     @Data
@@ -47,7 +50,8 @@ public class DataSourceConfig {
     @AllArgsConstructor
     private static class DataSourceCf {
         private String ip;
-        private String database;
+        private String databaseVendor;
+        private String databaseName;
         private String username;
         private String password;
     }

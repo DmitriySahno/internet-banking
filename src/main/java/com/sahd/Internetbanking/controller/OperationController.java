@@ -1,14 +1,19 @@
 package com.sahd.Internetbanking.controller;
 
+import com.sahd.Internetbanking.entity.Operation;
 import com.sahd.Internetbanking.payload.request.BaseRequest;
+import com.sahd.Internetbanking.payload.request.OperationListRequest;
 import com.sahd.Internetbanking.payload.request.TransferMoneyRequest;
 import com.sahd.Internetbanking.payload.response.BalanceResponse;
 import com.sahd.Internetbanking.payload.response.ErrorResponse;
 import com.sahd.Internetbanking.service.BalanceService;
 import com.sahd.Internetbanking.service.OperationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/")
@@ -24,7 +29,7 @@ public class OperationController {
             operationService.takeMoney(request.getUserId(), request.getAmount());
             return ResponseEntity.ok(new BalanceResponse(1d));
         } catch (RuntimeException e) {
-            return ResponseEntity.ok(new ErrorResponse(0, e.getMessage()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(0, e.getMessage()));
         }
     }
 
@@ -34,27 +39,27 @@ public class OperationController {
             operationService.putMoney(request.getUserId(), request.getAmount());
             return ResponseEntity.ok(new BalanceResponse(1d));
         } catch (RuntimeException e) {
-            return ResponseEntity.ok(new ErrorResponse(0, e.getMessage()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(0, e.getMessage()));
         }
     }
 
     @PostMapping("/transferMoney")
-    public ResponseEntity<Object> transferMoney(@RequestBody TransferMoneyRequest request){
+    public ResponseEntity<Object> transferMoney(@RequestBody TransferMoneyRequest request) {
         try {
             operationService.transferMoney(request.getUserFromId(), request.getUserToId(), request.getAmount());
             return ResponseEntity.ok(new BalanceResponse(1d));
         } catch (RuntimeException e) {
-            return ResponseEntity.ok(new ErrorResponse(0, e.getMessage()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(0, e.getMessage()));
         }
     }
 
     @GetMapping("/getOperationList")
-    public ResponseEntity<Object> getOperationList(@RequestBody TransferMoneyRequest request){
+    public ResponseEntity<Object> getOperationList(@RequestBody OperationListRequest request) {
         try {
-            operationService.transferMoney(request.getUserFromId(), request.getUserToId(), request.getAmount());
-            return ResponseEntity.ok(new BalanceResponse(1d));
+            List<Operation> operations = operationService.getOperations(request.getUserId(), request.getDateFrom(), request.getDateTo());
+            return ResponseEntity.ok(operations);
         } catch (RuntimeException e) {
-            return ResponseEntity.ok(new ErrorResponse(0, e.getMessage()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(0, e.getMessage()));
         }
     }
 
