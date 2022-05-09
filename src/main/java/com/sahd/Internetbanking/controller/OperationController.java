@@ -20,7 +20,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OperationController {
 
-    private final BalanceService balanceService;
     private final OperationService operationService;
 
     @PostMapping("/takeMoney")
@@ -29,7 +28,7 @@ public class OperationController {
             operationService.takeMoney(request.getUserId(), request.getAmount());
             return ResponseEntity.ok(new BalanceResponse(1d));
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(0, e.getMessage()));
+            return ResponseEntity.badRequest().body(new ErrorResponse(0, e.getMessage()));
         }
     }
 
@@ -39,7 +38,7 @@ public class OperationController {
             operationService.putMoney(request.getUserId(), request.getAmount());
             return ResponseEntity.ok(new BalanceResponse(1d));
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(0, e.getMessage()));
+            return ResponseEntity.badRequest().body(new ErrorResponse(0, e.getMessage()));
         }
     }
 
@@ -49,7 +48,7 @@ public class OperationController {
             operationService.transferMoney(request.getUserFromId(), request.getUserToId(), request.getAmount());
             return ResponseEntity.ok(new BalanceResponse(1d));
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(0, e.getMessage()));
+            return ResponseEntity.badRequest().body(new ErrorResponse(0, e.getMessage()));
         }
     }
 
@@ -59,7 +58,7 @@ public class OperationController {
             List<Operation> operations = operationService.getOperations(request.getUserId(), request.getDateFrom(), request.getDateTo());
             return ResponseEntity.ok(operations);
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(0, e.getMessage()));
+            return ResponseEntity.badRequest().body(new ErrorResponse(0, e.getMessage()));
         }
     }
 

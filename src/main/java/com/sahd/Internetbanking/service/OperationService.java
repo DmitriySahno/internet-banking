@@ -81,10 +81,23 @@ public class OperationService {
             log.error("User not found by id= " + userId);
             throw new UserNotFoundException("User not found by id= " + userId);
         }
-        List<Operation> operations = operationRepository.findAllByUserIdAndDateBetween(userById.get()
+        List<Operation> operations = operationRepository.findAllByUserIdAndDateBetween(userId
                 , dateFrom == null ? LocalDateTime.parse("0000-01-01T00:00:00.0") : dateFrom
                 , dateTo == null ? LocalDate.now().plusDays(1).atTime(0, 0) : dateTo);
         log.info("Operations were got successfully by user: {} between dateFrom: {} and dateTo: {}. Operations: {}", userId, dateFrom, dateTo, operations);
         return operations;
     }
+
+    public void deleteOperation(Operation operation) {
+        log.info("Starting to delete operation: {}", operation);
+        Long operationId = operation.getId();
+        Optional<Operation> operationOpt = operationRepository.findById(operationId);
+        if (operationOpt.isEmpty()) {
+            log.error("Operation not found by id= " + operationId);
+            throw new OperationNotFoundException("Operation not found by id= " + operationId);
+        }
+        operationRepository.delete(operationOpt.get());
+        log.info("Operation {} was successfully deleted", operationOpt.get());
+    }
+
 }

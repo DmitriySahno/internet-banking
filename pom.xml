@@ -15,6 +15,8 @@
 	<description>Final project</description>
 	<properties>
 		<java.version>11</java.version>
+		<jupiter.version>5.8.2</jupiter.version>
+		<h2.version>2.1.212</h2.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -41,6 +43,19 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>${jupiter.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>${h2.version}</version>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 
 	<build>

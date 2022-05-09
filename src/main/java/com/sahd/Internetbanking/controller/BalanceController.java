@@ -25,7 +25,7 @@ public class BalanceController {
             Balance balance = balanceService.getBalance(userId);
             return ResponseEntity.ok(new BalanceResponse(balance.getAmount()));
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(-1, e.getMessage()));
+            return ResponseEntity.badRequest().body(new ErrorResponse(-1, e.getMessage()));
         }
     }
 

@@ -9,5 +9,5 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface OperationRepository extends JpaRepository<Operation, Long> {
-    List<Operation> findAllByUserIdAndDateBetween(User user, LocalDateTime start, LocalDateTime end);
+    List<Operation> findAllByUserIdAndDateBetween(Long userId, LocalDateTime start, LocalDateTime end);
 }

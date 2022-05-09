@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import javax.sql.DataSource;
 import java.io.BufferedReader;
@@ -17,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 @Configuration
+@Profile("!test")
 public class DataSourceConfig {
 
     @Value("${config.file}")

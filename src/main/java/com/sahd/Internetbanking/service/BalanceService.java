@@ -21,10 +21,6 @@ public class BalanceService {
     private final BalanceRepository balanceRepository;
     private final UserRepository userRepository;
 
-//    public Optional<Balance> getBalance(Long id) {
-//        return Optional.of(new Balance(1L, 0.0));
-//    }
-
     public Balance getBalance(Long userId) {
         log.info("Starting to get Balance by userId= " + userId);
         Optional<User> userById = userRepository.findById(userId);
