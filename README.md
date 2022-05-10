@@ -1,6 +1,6 @@
 # Internet-banking
 
-My personal project for portfolio. 
+My personal project for portfolio.
 <br>It is a REST-API application, that allows you to manage of user balances by http-requests:
 * <ins>/getBalance/userId</ins> - get current balance of user. Instead of "userId" you must substitude id of user;
 * <ins>/putMoney</ins> - add amount of money to user balance. Http-request should contain request body:
@@ -13,8 +13,12 @@ My personal project for portfolio.
   * *userFromId* - source user id;
   * *userToId* - destination user id;
   * *amount* - amount of money to transfer. 
+* <ins>/getOperationList</ins> - get all operations by user in period. Http-request should contain request body:
+  * *userId* - user id;
+  * *dateFrom* - start date of period;
+  * *dateTo* - end date of period.
 
-All requests must contain server ip-address and port.
+The API is accessible and can be checked by [url](https://sf-internet-banking.herokuapp.com/) + methods below.
 
 The database structure is displayed at the picture:
 
