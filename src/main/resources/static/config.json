@@ -1,7 +1,7 @@
 {
-  "ip": "localhost:5432",
+  "ip": "ec2-52-212-228-71.eu-west-1.compute.amazonaws.com:5432",
   "databaseVendor": "jdbc:postgresql",
-  "databaseName": "internet_banking",
-  "username": "postgres",
-  "password": "postgres"
+  "databaseName": "dan4lopsbb3gp7",
+  "username": "hdjuizgyppycfi",
+  "password": "7798be9d2a6686dcacb157d802adcdc4320ffb8415b005729fd4b340ff0a30a9"
 }
